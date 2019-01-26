@@ -21,3 +21,9 @@ public enum Direction
     top,
     buttom
 }
+public enum WeaselStatus
+{
+    prepare,
+    get,
+    lose
+}

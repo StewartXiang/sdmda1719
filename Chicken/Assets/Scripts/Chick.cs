@@ -8,7 +8,7 @@ public class Chick : MyObject
     public Hashtable status = new Hashtable();
     public Hashtable time = new Hashtable();
     public Mom mom;
-    public float m = 0.9f;
+    public float m = 1.4f;
     public float myMax = 5f;
     public float myMin = 2f;
     public float myRange = 5.0f;
@@ -55,7 +55,7 @@ public class Chick : MyObject
             Vector2 maxV = new Vector2(
                 -(this.transform.position - mom.transform.position).x / momDistance,
                 -(this.transform.position - mom.transform.position).y / momDistance
-            ) * myMax;
+            ) * m;
             SetSpeed(maxV);
         }
         else if (momDistance < myMin)

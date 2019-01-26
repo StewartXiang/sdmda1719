@@ -41,13 +41,13 @@ public class weasel : MyObject
     public void IntroTarget(Vector2 target)
     {
         float xSum=0, ySum=0 ;
-        foreach(GameObject c in mom.chicks)
+        foreach(GameObject c in mom.chickList)
         {
             xSum += c.transform.position.x;
             ySum += c.transform.position.y;
 
         }
-        this.target = new Vector2(xSum/mom.chicks.Count,ySum/mom.chicks.Count);
+        this.target = new Vector2(xSum/mom.chickList.Count,ySum/mom.chickList.Count);
     }
     public void SetSpeed()
     {
