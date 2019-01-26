@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class weasel : MyObject
 {
-    public int width, height;
+    public float width = GameControl.gameBound.x, height = GameControl.gameBound.y;
     public Vector2 target;
     public Mom mom;
-    public bool prepare = true;
+    public WeaselStatus status = WeaselStatus.prepare;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +32,7 @@ public class weasel : MyObject
     // Update is called once per frame
     void Update()
     {
-        if (this.prepare)
+        if (this.status==WeaselStatus.prepare)
         {
             this.SetSpeed();
         }
@@ -55,7 +55,6 @@ public class weasel : MyObject
     }
     private void OnCollisionEnter(Collision collision)
     {
-        this.prepare = false;
         GameObject o = collision.gameObject;
         switch (this.direction)
         {
@@ -70,6 +69,7 @@ public class weasel : MyObject
         }
         if (o.tag == "chick")
         {
+            this.status = WeaselStatus.get;
             o.transform.parent = this.gameObject.transform;
             o.transform.localPosition = new Vector3(
                 this.mySpeed.x/Mathf.Abs(this.mySpeed.x)*1.0f,
@@ -79,7 +79,7 @@ public class weasel : MyObject
         }
         else if(o.tag == "mom")
         {
-
+            this.status = WeaselStatus.lose;
         }
     }
 

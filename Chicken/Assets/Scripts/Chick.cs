@@ -8,7 +8,7 @@ public class Chick : MyObject
     public Hashtable status = new Hashtable();
     public Hashtable time = new Hashtable();
     public Mom mom;
-    public float m = 1.4f;
+    public float m = 1.1f;
     public float myMax = 5f;
     public float myMin = 2f;
     public float myRange = 5.0f;
