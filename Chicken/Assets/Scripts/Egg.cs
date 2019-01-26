@@ -51,7 +51,7 @@ public class Egg : MyObject
         if (GrowNum == 2)
         {
             ani.SetInteger("Grow", GrowNum);
-            this.Invoke("GrowToChicken", 0.8f);
+            this.Invoke("GrowToChicken", 1.1f);
 
         }
     }
