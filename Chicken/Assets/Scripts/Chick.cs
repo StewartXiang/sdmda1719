@@ -90,6 +90,10 @@ public class Chick : MyObject
             this.status["worry"] = true;
             this.time["worrytime"] = System.Convert.ToDouble(this.time["worrytime"])+Time.deltaTime;
             this.mySpeed = Vector2.zero;
+            if ((float)this.time["illtime"] > 5)
+            {
+                this.status["dead"] = true;
+            }
         }
         else
         {
@@ -107,6 +111,10 @@ public class Chick : MyObject
         if ((bool)this.status["ill"])
         {
             this.time["illtime"] = (float)this.time["illtime"] + Time.deltaTime;
+            if ((float)this.time["illtime"] > 8)
+            {
+                this.status["dead"] = true;
+            }
         }
         else
         {

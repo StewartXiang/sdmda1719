@@ -37,6 +37,10 @@ public class weasel : MyObject
             this.SetSpeed();
         }
         rig.velocity = this.mySpeed;
+        if (CheckOut())
+        {
+            Destroy(this);
+        }
     }
     public void IntroTarget(Vector2 target)
     {
@@ -80,6 +84,20 @@ public class weasel : MyObject
         else if(o.tag == "mom")
         {
             this.status = WeaselStatus.lose;
+        }
+    }
+    public bool CheckOut()
+    {
+        if (
+            Mathf.Abs(this.transform.position.x) > GameControl.gameBound.x-2 | 
+            Mathf.Abs(this.transform.position.x) > GameControl.gameBound.y-2
+        )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
