@@ -49,14 +49,26 @@ public class GameControl : MonoBehaviour {
 
         float haxis = Input.GetAxis("Horizontal");
         float vaxis = Input.GetAxis("Vertical");
-        myMom.SetSpeed(myMom.myMax * new Vector2(haxis, vaxis));
+        if (myMom.isDashing == false)
+        {
+            myMom.SetSpeed(myMom.myMax * new Vector2(haxis, vaxis));
+        }
 
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button0) || Input.GetKeyDown(KeyCode.J))
         {
             SpawnChick(Random.Range(-1 * gameBound.x, gameBound.x), Random.Range(-1 * gameBound.y, gameBound.y));
         }
-        if (Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.K)) { }
+        if (Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.K))
+        {
+            if (myMom.isDashing == false)
+            {
+                myMom.DashSpeed();
+                myMom.isDashing = true;
+                myMom.ani.SetBool("MomRun", true);
+            }
+
+        }
         if (Input.GetKeyDown(KeyCode.Joystick1Button2) || Input.GetKeyDown(KeyCode.L)) { }
         #endregion
     }

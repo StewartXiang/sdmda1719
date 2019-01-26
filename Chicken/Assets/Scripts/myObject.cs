@@ -45,7 +45,7 @@ public class MyObject : MonoBehaviour
     {
         float h = this.transform.position.y + GameControl.gameBound.y;
         int l = 100 - System.Convert.ToInt32(100 * (h / (GameControl.gameBound.y * 2)));
-        spr.sortingOrder = l;
+        spr.sortingOrder = l + 1;
     }
 
     public void Move()

@@ -166,8 +166,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1053452497
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 888f14d5698ff244093bfee9d16c8f5e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -295,11 +295,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1479309011}
   - component: {fileID: 1479309010}
-  - component: {fileID: 1479309009}
   - component: {fileID: 1479309008}
   - component: {fileID: 1479309007}
+  - component: {fileID: 1479309012}
+  - component: {fileID: 1479309009}
   m_Layer: 0
-  m_Name: FakeHen
+  m_Name: Mom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,8 +318,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.6627214, y: 0.03165682}
-  m_Size: {x: 3.384511, y: 7.8733134}
+  m_Offset: {x: 1.2738765, y: -1.0899643}
+  m_Size: {x: 4.0945773, y: 4.6481376}
   m_Direction: 0
 --- !u!50 &1479309008
 Rigidbody2D:
@@ -357,6 +358,10 @@ MonoBehaviour:
   spr: {fileID: 0}
   status: 0
   myMax: 6
+  ani: {fileID: 0}
+  isDashing: 0
+  maxDashLength: 4.5
+  dashSpeed: 20
 --- !u!212 &1479309010
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -389,10 +394,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1099959255
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 028eab14a438fc34f80279943d966e36, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a0a16ffd199e87a47b86abb5e8184fc0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -416,6 +421,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1479309012
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1479309006}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cfdbb63301f44004584082ba1a3e0dd7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1556251018
 GameObject:
   m_ObjectHideFlags: 0
