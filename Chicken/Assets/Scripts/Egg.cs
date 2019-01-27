@@ -9,6 +9,8 @@ public class Egg : MyObject
     public GameControl gameController;
     public int GrowP = 5;
     public Animator ani;
+
+    //private float alpha = 0;
 	// Use this for initialization
 	void Start () {
         ani = GetComponent<Animator>();
@@ -16,10 +18,19 @@ public class Egg : MyObject
     void OnEnable()
     {
         init();
+        //spr.color = new Color(1, 1, 1, alpha);
     }
     // Update is called once per frame
     void Update () {
         ChangeLayer();
+        /*
+        if (spr.color.a <1)
+        {
+            spr.color = new Color(1, 1, 1, alpha);
+            alpha += 1.0f * Time.deltaTime;
+            Debug.Log(alpha);
+            Debug.Log(spr.color.ToString());
+        }*/
     }
 
     void init()

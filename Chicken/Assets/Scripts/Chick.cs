@@ -14,10 +14,23 @@ public class Chick : MyObject
     public float myRange = 5.0f;
     public float momDistance;
 
+    private GameObject Following;
+    bool isCatched = false;
+    private weasel catcher;
 
-    private Direction old = Direction.top;
+    private int illP = 10;
+
+    bool isInList = false;
+    //private Direction old = Direction.top;
 
     Animator ani;
+
+    public GameObject bubble;
+    public GameObject hungry;
+    public GameObject ill;
+    public GameObject hungryAndIll;
+
+    public AudioClip tweet;
 
     // Start is called before the first frame update
     void Start()
@@ -39,83 +52,182 @@ public class Chick : MyObject
     void SetMom(Mom _mom)
     {
         mom = _mom;
+        Following = mom.gameObject;
     }
     void OnEnable()
     {
+        //illTest();
     }
     // Update is called once per frame
     void Update()
     {
         ChangeLayer();
-        UpdateDistance();
-        //SetVector(new Vector2(0, 8));
-        if (momDistance > myMax)
+        if (!isCatched)
         {
-            //Debug.Log("bbb");
-            Vector2 maxV = new Vector2(
-                -(this.transform.position - mom.transform.position).x / momDistance,
-                -(this.transform.position - mom.transform.position).y / momDistance
-            ) * m;
-            SetSpeed(maxV);
-        }
-        else if (momDistance < myMin)
-        {
-            //Debug.Log("aaa");
-            SetSpeed(Vector2.zero);
+            UpdateDistance();
+            //SetVector(new Vector2(0, 8));
+            if (momDistance > myMax)
+            {
+                //Debug.Log("bbb");
+                Vector2 maxV = new Vector2(
+                    -(this.transform.position - Following.transform.position).x / momDistance,
+                    -(this.transform.position - Following.transform.position).y / momDistance
+                ) * m;
+                SetSpeed(maxV);
+            }
+            else if (momDistance < myMin)
+            {
+                //Debug.Log("aaa");
+                SetSpeed(Vector2.zero);
+            }
+            else
+            {
+               // Debug.Log("ccc");
+                SetSpeed(
+                    new Vector2(
+                        m * this.transform.position.x,
+                        m * this.transform.position.y
+                    ),
+                    new Vector2(
+                        m * Following.transform.position.x,
+                        m * Following.transform.position.y
+                    )
+                );
+            }
+            ChangeWorryStatus();
+            ChangeStandStatus();
+            ChangeIllStatus();
+            rig.velocity = this.mySpeed;
         }
         else
         {
-            SetSpeed(
-                new Vector2(
-                    m*this.transform.position.x, 
-                    m*this.transform.position.y
-                ), 
-                new Vector2(
-                    m*mom.transform.position.x, 
-                    m*mom.transform.position.y
-                )
-            );
+            Vector3 addition;
+            if (catcher.spr.flipX == true)
+            {
+                addition = weasel.FacePoseL;
+            }
+            else
+            {
+                addition = weasel.FacePoseR;
+            }
+            transform.position = catcher.transform.position + addition;
+
+            if (catcher.status != WeaselStatus.get)
+            {
+                isCatched = false;
+            }
         }
         ChangeDirection();
-        ChangeWorryStatus();
-        ChangeStandStatus();
         //Move();
-        rig.velocity = this.mySpeed;
+        
     }
 
     void ChangeWorryStatus()
     {
         if (momDistance > myRange)
         {
+            if (isInList)
+            {
+                mom.scoreList.Remove(this.gameObject);
+                isInList = false;
+            }
             this.status["worry"] = true;
+            ani.SetBool("ChickenWorry", true);
             this.time["worrytime"] = System.Convert.ToDouble(this.time["worrytime"])+Time.deltaTime;
             this.mySpeed = Vector2.zero;
+            if (System.Convert.ToDouble(this.time["worrytime"]) > 5)
+            {
+                this.status["dead"] = true;
+            }
         }
         else
         {
+            if(!isInList)
+            {
+                mom.scoreList.AddLast(this.gameObject);
+                isInList = true;
+            }
             this.status["worry"] = false;
+            ani.SetBool("ChickenWorry", false);
             this.time["worrytime"] = 0;
         }
+        Debug.Log(mom.scoreList.Count);
     }
+    /*
+    void illTest()
+    {
+        Debug.Log("Test");
+        if (!(bool)this.status["ill"])
+        {
+            int temp = Random.Range(0, 100);
+            if (temp < illP)
+            {
+                Debug.Log("bingo");
+                this.status["ill"] = true;
+                ChangeBubbleState(true);
+            }
+        }
+        this.Invoke("illTest", Random.Range(3.0f, 7.0f));
+    }*/
     void ChangeIllStatus()
     {
-        int r = Random.Range(0, 500);
+        
+        int r = Random.Range(0, 5000);
         if (r == 1)
         {
             this.status["ill"] = true;
+            ChangeBubbleState(true);
         }
         if ((bool)this.status["ill"])
         {
-            this.time["illtime"] = (float)this.time["illtime"] + Time.deltaTime;
+            this.time["illtime"] = System.Convert.ToDouble(this.time["illtime"]) + Time.deltaTime;
+            if (System.Convert.ToDouble(this.time["illtime"]) > 8)
+            {
+                this.status["dead"] = true;
+            }
         }
         else
         {
-            this.time["illtime"] = false;
+            this.time["illtime"] = 0;
+            //this.Invoke("illTest", Random.Range(5.0f, 9.0f));
+        }
+    }
+
+    void ChangeBubbleState(bool on)
+    {
+        if (on == true)
+        {
+            bubble.SetActive(true);
+            if((bool)this.status["ill"] && (bool)this.status["hungry"])
+            {
+                hungryAndIll.SetActive(true);
+            }
+            else if ((bool)this.status["ill"])
+            {
+                ill.SetActive(true);
+            }
+            else if ((bool)this.status["hungry"])
+            {
+                hungry.SetActive(true);
+            }
+            else
+            {
+                bubble.SetActive(false);
+            }
+        }
+        else
+        {
+            bubble.SetActive(false);
+            ill.SetActive(false);
+            hungryAndIll.SetActive(false);
+            hungry.SetActive(false);
         }
     }
     public void Heal()
     {
         this.status["ill"] = false;
+        ChangeBubbleState(true);
+
     }
     public void ChangeStandStatus()
     {
@@ -132,8 +244,20 @@ public class Chick : MyObject
     }
     void UpdateDistance()
     {
-        this.momDistance = (this.transform.position - mom.transform.position).magnitude;
+        this.momDistance = (this.transform.position - Following.transform.position).magnitude;
         //Debug.Log(momDistance);
+    }
+
+    public void Catched(weasel cter)
+    {
+        isCatched = true;
+        catcher = cter;
+        AudioControl.PlayMusic(tweet);
+        if (isInList)
+        {
+            mom.scoreList.Remove(this.gameObject);
+            isInList = false;
+        }
     }
 
 }
