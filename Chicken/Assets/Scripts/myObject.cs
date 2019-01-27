@@ -17,7 +17,7 @@ public class MyObject : MonoBehaviour
     }
     public void SetSpeed(Vector2 myPos, Vector2 aimPos)
     {
-        mySpeed = aimPos - myPos;
+        mySpeed = (aimPos - myPos)/(aimPos - myPos).magnitude*8;
     }
     public void ChangeDirection()
     {

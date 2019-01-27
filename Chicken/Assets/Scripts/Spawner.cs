@@ -41,7 +41,7 @@ public class Spawner {
 
     public GameObject Spawn(float x, float y)
     {
-        if (SpawnList.Last.Value.activeSelf == true)
+        if (!HasSpare())
         {
             realSpawn();
         }
@@ -72,6 +72,10 @@ public class Spawner {
         */
     }
 
+    public bool HasSpare()
+    {
+        return SpawnList.Last.Value.activeSelf == false;
+    }
     public void Destroy(GameObject target)
     {
         target.SetActive(false);

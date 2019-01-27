@@ -12,10 +12,17 @@ public class Mom : MyObject
     public float maxDashLength = 10.5f;
     public float dashSpeed = 40;
 
+    public GameObject shadow;
+
     public LinkedList<GameObject> chickList = new LinkedList<GameObject>();
+    public LinkedList<GameObject> scoreList = new LinkedList<GameObject>();
 
     private float realDashLength = 0;
     private Vector3 oldDashPos = new Vector3(999, 999, 999);
+
+    public GameControl gameController;
+
+    //public int herbNum = 0;
 
     // Use this for initialization
     void Start()
@@ -55,6 +62,7 @@ public class Mom : MyObject
         */
         ChangeLayer();
         ChangeDirection();
+        FixShadow();
         if (isDashing)
         {
             if (oldDashPos.z != 999)
@@ -76,6 +84,18 @@ public class Mom : MyObject
         }
         Move();
     }
+    void FixShadow()
+    {
+        if (spr.flipX == true)
+        {
+            shadow.transform.localPosition = new Vector3(-1.5f, -3.4f);
+        }
+        else
+        {
+            shadow.transform.localPosition = new Vector3(1.5f, -3.4f);
+        }
+    }
+
     public void ChangeStandStatus()
     {
         bool isStand;
@@ -114,4 +134,12 @@ public class Mom : MyObject
         }
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "herb")
+        {
+            gameController.herbNum++;
+            GameControl.Hsp.Destroy(collision.gameObject);
+        }  
+    }
 }
